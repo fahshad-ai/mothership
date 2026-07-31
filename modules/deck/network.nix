@@ -45,6 +45,17 @@ in
 
     networking.firewall.trustedInterfaces = [ "br-deck" ];
 
+    # isolate br-deck from member/user VMs. forward filtering only exists on
+    # the nftables firewall, so deck pulls the nftables backend in with it.
+    networking.nftables.enable = true;
+    networking.firewall.backend = lib.mkDefault "nftables";
+    networking.firewall.filterForward = true;
+    networking.firewall.extraForwardRules = ''
+      # member/user VMs keep their NAT'd internet access but never reach br-deck;
+      # forward policy drops everything else, so deck stays private.
+      iifname "br-members" oifname != "br-deck" accept
+    '';
+
     # documentation for operators
     environment.etc."mothership/deck-network.txt".text = ''
       br-deck ${cfg.address}/${toString cfg.prefixLength}
