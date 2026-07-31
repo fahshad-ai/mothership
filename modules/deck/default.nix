@@ -9,6 +9,7 @@
   imports = [
     ./network.nix
     ./mattermost.nix
+    ./plane.nix
     # ./vaultwarden.nix
   ];
 }

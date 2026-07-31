@@ -66,6 +66,7 @@ in
 
   # private bridge for loki/grafana/mattermost/vaultwarden
   mothership.deck.network.enable = true;
+  mothership.deck.plane.enable = true;
 
   # member VMs: user-vms/*.nix
   # public: ssh you@you.<domain> via edge bastion; mesh is internal only
